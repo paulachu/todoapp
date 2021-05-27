@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AuthService, Profile } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -6,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
+  @Input() public profile: Profile | null = null;
+  constructor(private readonly authService: AuthService) {
   }
 
+  async ngOnInit() {
+  }
 }

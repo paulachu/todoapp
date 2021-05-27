@@ -1,1 +1,12 @@
-<p>login works!</p>
+<div *ngIf="profile && profile.userProfile">
+  <button mat-mini-fab color="white" [matMenuTriggerFor]="menu">
+    {{profile.userProfile.username?.toUpperCase()?.charAt(0)}}
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</div>
+<button *ngIf="!profile" mat-flat-button (click)="login()">Login</button>

@@ -8,8 +8,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { HttpClientModule } from '@angular/common/http';
+import { MainpageComponent } from './pages/mainpage/mainpage.component';
+import { MaterialModule } from './material-module';
+import { LoaderComponent } from './components/loader/loader.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
+
   return () =>
     keycloak.init({
       config: {
@@ -29,7 +33,9 @@ function initializeKeycloak(keycloak: KeycloakService) {
   declarations: [
     AppComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+    MainpageComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +43,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     BrowserAnimationsModule,
     KeycloakAngularModule,
     HttpClientModule,
+    MaterialModule
   ],
   providers: [
     {
