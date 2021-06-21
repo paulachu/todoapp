@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthGuard } from './guard/auth.guard';
-import { MainpageComponent } from './pages/mainpage/mainpage.component';
+import { IndexComponent } from './pages/index/index.component';
+import { MyprojectComponent } from './pages/myproject/myproject.component';
+import { ProjectComponent } from './pages/project/project.component';
 
 const routes: Routes = [
-  { path: '', component: MainpageComponent },
-  { path: 'navbar', component: NavbarComponent, canActivate: [AuthGuard] },
+  { path: '', component: IndexComponent},
+  { path: 'my_project', component: MyprojectComponent, canActivate: [AuthGuard] },
+  { path: 'project/:projectId', component: ProjectComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

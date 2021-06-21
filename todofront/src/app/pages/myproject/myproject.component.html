@@ -1,0 +1,3 @@
+<h2 *ngIf="projects.length == 0">No project</h2>
+<h2 *ngIf="projects.length != 0">Your projects</h2>
+<app-listproject (addProject)="reloadProjects($event)" [projects]="projects"></app-listproject>

@@ -20,7 +20,7 @@ export class Profile
 })
 export class AuthService {
   public profile: Profile | null = null;
-  constructor(private readonly keycloak: KeycloakService) {
+  constructor(private keycloak: KeycloakService) {
   }
 
   async loadProfile()
@@ -32,9 +32,13 @@ export class AuthService {
       this.profile = new Profile(roles, userProfile, isLoggedIn);
     }
   }
-  login()
+  login(redirectUri: string)
   {
-    this.keycloak.login();
+    this.keycloak.login(
+      {
+        redirectUri: redirectUri,
+      }
+    );
   }
   logout()
   {

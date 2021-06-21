@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   }
   public login()
   {
-    this.authService.login();
+    this.authService.login(window.location.origin + "/my_project");
   }
   public logout()
   {

@@ -1,5 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -7,10 +8,16 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-import { HttpClientModule } from '@angular/common/http';
-import { MainpageComponent } from './pages/mainpage/mainpage.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaterialModule } from './material-module';
 import { LoaderComponent } from './components/loader/loader.component';
+import { DataService } from './service/data.service';
+import { KeycloakInterceptorService } from './service/KeycloakInterceptorService';
+import { ListprojectComponent } from './components/listproject/listproject.component';
+import { AddProjectComponent } from './components/dialog/add-project/add-project.component';
+import { IndexComponent } from './pages/index/index.component';
+import { MyprojectComponent } from './pages/myproject/myproject.component';
+import { ProjectComponent } from './pages/project/project.component';
 
 function initializeKeycloak(keycloak: KeycloakService) {
 
@@ -26,6 +33,12 @@ function initializeKeycloak(keycloak: KeycloakService) {
         silentCheckSsoRedirectUri:
           window.location.origin + '/assets/silent-check-sso.html',
       },
+      enableBearerInterceptor: true,
+      bearerPrefix: 'Bearer',
+      bearerExcludedUrls:
+      [
+          '/assets',
+          '/clients/public'],
     });
 }
 
@@ -34,8 +47,12 @@ function initializeKeycloak(keycloak: KeycloakService) {
     AppComponent,
     NavbarComponent,
     LoginComponent,
-    MainpageComponent,
-    LoaderComponent
+    LoaderComponent,
+    ListprojectComponent,
+    AddProjectComponent,
+    IndexComponent,
+    MyprojectComponent,
+    ProjectComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +60,8 @@ function initializeKeycloak(keycloak: KeycloakService) {
     BrowserAnimationsModule,
     KeycloakAngularModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
   ],
   providers: [
     {
@@ -51,6 +69,12 @@ function initializeKeycloak(keycloak: KeycloakService) {
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService],
+    },
+    DataService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: KeycloakInterceptorService,
+      multi: true
     },
   ],
   bootstrap: [AppComponent]

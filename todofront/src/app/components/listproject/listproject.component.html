@@ -1,0 +1,10 @@
+<div class="projects_list">
+  <mat-card *ngFor="let p of projects" class="project_card" matRipple [routerLink]="['/project', p.id]">
+    <mat-card-title>{{p.name}}</mat-card-title>
+    <mat-card-subtitle>{{p.description}}</mat-card-subtitle>
+  </mat-card>
+  <mat-card matRipple class="project_card add_project_card" (click)="openAddDialog()">
+    <mat-card-title class="add_project_icon"><mat-icon [inline]="true">add</mat-icon></mat-card-title>
+    <mat-card-subtitle>Add project</mat-card-subtitle>
+  </mat-card>
+</div>
