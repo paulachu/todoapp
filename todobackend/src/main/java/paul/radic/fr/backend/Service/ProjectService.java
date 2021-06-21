@@ -1,15 +1,13 @@
 package paul.radic.fr.backend.Service;
 
 import paul.radic.fr.backend.Entity.Project;
-import paul.radic.fr.backend.Entity.UserProject;
 import paul.radic.fr.backend.Entity.Users;
 import paul.radic.fr.backend.Repository.ProjectRepository;
-import paul.radic.fr.backend.Repository.UserProjectRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.persistence.LockModeType;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @ApplicationScoped
@@ -18,23 +16,41 @@ public class ProjectService
     @Inject
     ProjectRepository projectRepository;
     @Inject
-    UserProjectRepository userProjectRepository;
+    UsersService usersService;
 
-
-    public void addProject(Project project)
+    public Project addProject(Project project, Users user)
     {
-        projectRepository.persist(project);
+        if (!usersService.existUser(user))
+        {
+            usersService.addUser(user);
+        }
+        var userDB = usersService.getByUUID(user.getUuid());
+        project.addUser(userDB);
+        try {
+            this.projectRepository.persist(project);
+        }
+        catch (Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        return project;
     }
     public boolean deleteProject(long id)
     {
         return projectRepository.delete("id", id) != 0;
     }
-    public List<Project> findProjects(String uuid)
+    public List<Project> findProjects(Users user)
     {
-        return userProjectRepository.find("user_uuid", uuid).stream().map(UserProject::getProject).collect(Collectors.toList());
+        if (!usersService.existUser(user))
+        {
+            usersService.addUser(user);
+        }
+        var userDB = usersService.getByUUID(user.getUuid());
+        return userDB.getProject();
     }
     public List<Users> getUsers(Project project)
     {
-        return userProjectRepository.find("project_id", project.id).stream().map(UserProject::getUser).collect(Collectors.toList());
+        return null;
     }
+
 }

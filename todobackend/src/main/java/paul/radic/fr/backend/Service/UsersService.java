@@ -11,6 +11,10 @@ import java.util.List;
 public class UsersService {
     @Inject
     UserRepository userRepository;
+    public Users getByUUID(String uuid)
+    {
+        return this.userRepository.findById(uuid);
+    }
     public List<Users> getAll()
     {
         return userRepository.listAll();
@@ -22,5 +26,9 @@ public class UsersService {
     public void deleteUser(String uuid)
     {
         userRepository.delete("uuid",uuid);
+    }
+    public boolean existUser(Users user)
+    {
+        return this.userRepository.findById(user.getUuid()) != null;
     }
 }
